@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "dev": "nodemon index.js",
+  "start": "node index.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Audrey550/ben-jerrys-api.git"
@@ -17,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/Audrey550/ben-jerrys-api/issues"
   },
-  "homepage": "https://github.com/Audrey550/ben-jerrys-api#readme"
+  "homepage": "https://github.com/Audrey550/ben-jerrys-api#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }
