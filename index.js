@@ -53,6 +53,20 @@ app.get("/api/orders/:id", (req, res) => {
   res.json(order);
 });
 
+app.post("/api/orders", (req, res) => {
+  const newOrder = {
+    id: orders.length + 1,
+    customer: req.body.customer,
+    iceCream: req.body.iceCream,
+    totalPrice: req.body.totalPrice,
+    status: "to_process"
+  };
+
+  orders.push(newOrder);
+
+  res.status(201).json(newOrder);
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
