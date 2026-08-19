@@ -67,6 +67,43 @@ app.post("/api/orders", (req, res) => {
   res.status(201).json(newOrder);
 });
 
+app.patch("/api/orders/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  const order = orders.find((order) => order.id === id);
+
+  if (!order) {
+    return res.status(404).json({
+      message: "Order not found"
+    });
+  }
+
+  if (req.body.status) {
+    order.status = req.body.status;
+  }
+
+  res.json(order);
+});
+
+app.delete("/api/orders/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  const orderIndex = orders.findIndex((order) => order.id === id);
+
+  if (orderIndex === -1) {
+    return res.status(404).json({
+      message: "Order not found"
+    });
+  }
+
+  const deletedOrder = orders.splice(orderIndex, 1);
+
+  res.json({
+    message: "Order deleted",
+    order: deletedOrder[0]
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
