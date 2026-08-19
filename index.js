@@ -141,23 +141,33 @@ app.patch("/api/orders/:id", async (req, res) => {
   }
 });
 
-app.delete("/api/orders/:id", (req, res) => {
-  const id = Number(req.params.id);
+app.delete("/api/orders/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
 
-  const orderIndex = orders.findIndex((order) => order.id === id);
+    const database = client.db("ben_jerrys");
+    const collection = database.collection("orders");
 
-  if (orderIndex === -1) {
-    return res.status(404).json({
-      message: "Order not found"
+    const order = await collection.findOne({ id: id });
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found"
+      });
+    }
+
+    await collection.deleteOne({ id: id });
+
+    res.json({
+      message: "Order deleted",
+      order
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to delete order",
+      error: error.message
     });
   }
-
-  const deletedOrder = orders.splice(orderIndex, 1);
-
-  res.json({
-    message: "Order deleted",
-    order: deletedOrder[0]
-  });
 });
 
 async function startServer() {
